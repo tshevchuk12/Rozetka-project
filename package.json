@@ -1,0 +1,27 @@
+{
+  "name": "rozetka-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "rozetka": "playwright test mainPage.spec.ts catalogPage.spec.ts loginForm.spec.ts searchPage.spec.ts",
+    "rozetka-ui": "playwright test --ui mainPage.spec.ts catalogPage.spec.ts loginForm.spec.ts searchPage.spec.ts",
+
+    "mainPage": "playwright test mainPage.spec.ts",
+    "mainPage-ui": "playwright test --ui mainPage.spec.ts",
+    "catalogPage": "playwright test catalogPage.spec.ts",
+    "catalogPage-ui": "playwright test --ui catalogPage.spec.ts",
+    "loginForm" :"playwright test loginForm.spec.ts",
+    "loginForm-ui": "playwright test --ui loginForm.spec.ts",
+    "searchPage": "playwright test searchPage.spec.ts",
+    "searchPage-ui": "playwright test --ui searchPage.spec.ts"
+
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.12.12"
+  }
+}
