@@ -5,8 +5,8 @@ import { Page, ElementHandle } from "@playwright/test";
            
             if ( typeof field === "string") {
                 await page.click(field);
-                await page.type(field,"");
-                await page.type(field,textToType)
+                await page.fill(field,"");
+                await page.fill(field,textToType)
                 } 
                 else if( typeof field !== "string") {
                     await field.type("");

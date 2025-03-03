@@ -3,7 +3,7 @@ import { createMainPage } from '../PageObject/mainPage_PO'
 import { createSearchPage } from '../PageObject/searchPage_PO'
 
 
-//Parameterized test 
+//Parameterized test  
 const dataForSearch = [{text:"Lenovo",test:1}, {text:"Acer",test:2}, {text:"Nokia",test:3}, {text:"JBL",test:4}, {text:"LG",test:5}]
 
 dataForSearch.forEach((data) => {
@@ -17,6 +17,7 @@ dataForSearch.forEach((data) => {
 
         const searchPageHeaderText = searchPageHeader?.replace(/\s/g, ' ');
         expect(searchPageHeaderText?.trim()).toEqual(`Результати пошуку «${data.text}»`);
+        //console.log(searchPageHeaderText)
      
     })
 })

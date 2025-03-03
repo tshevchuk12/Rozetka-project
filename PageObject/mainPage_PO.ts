@@ -3,49 +3,32 @@ import {mainPageSelectors} from "../Selectors/mainPageSelectors"
 
 const createMainPage = (page: Page) => {
     const mainPage = {
-        openMainPage: () => page.goto('https://rozetka.com.ua/ua/'),
-        scrollMainPageDown:() => page.mouse.wheel(0, 4753.460),
-
-        getProductSectionsList: () => page.$$(mainPageSelectors.PRODUCT_ELEMENTS_LIST),
+        openMainPage: () => page.goto('https://rozetka.com.ua/ua/', {waitUntil:"networkidle"}), 
     
         getFirstProductSectionElements: async() => {
-            const [firstSection]= await mainPage.getProductSectionsList(); 
-            const firstSectionElements = await firstSection.$$(mainPageSelectors.PRODUCT_ELEMENTS_IN_SECTION);
-            return firstSectionElements
+            const firstSectionLocator =  page.locator(mainPageSelectors.PRODUCT_ELEMENTS_LIST); 
+            return firstSectionLocator
+        },
+        getQuantityOfProducts: async() => {
+            const quantityOfProducts = (await mainPage.getFirstProductSectionElements()).count()
+            return quantityOfProducts
         },
         showMoreButton: {
-            getFirstSectionButton: async() => {
-                const [firstSection]= await mainPage.getProductSectionsList(); 
-                const showMoreButton = await firstSection.$(mainPageSelectors.SHOW_MORE_BUTTON);
+            getButtonLocator: () => {
+                const showMoreButton = page.locator(mainPageSelectors.SHOW_MORE_BUTTON)
                 return showMoreButton
             },
             getName: async() => {
-                const showMoreButton = await mainPage.showMoreButton.getFirstSectionButton()
-                const buttonName = await showMoreButton?.innerText();
-                return buttonName
+                const showMoreButton = mainPage.showMoreButton.getButtonLocator()
+                return await showMoreButton.innerText();
+        
             },
             click: async() => {
-                const showMoreButton = await mainPage.showMoreButton.getFirstSectionButton()
+                const showMoreButton =  mainPage.showMoreButton.getButtonLocator()
                 await showMoreButton?.click()
             }
             
-        },
-        getShowMoreButtonList: async() => {
-            const productSectionsList = await mainPage.getProductSectionsList();
-            const showMoreButtonList = await Promise.all(productSectionsList.map(async(showMoreButtonElement) => {
-            const showMoreButtonInSection = await showMoreButtonElement.$(mainPageSelectors.SHOW_MORE_BUTTON);
-            const buttonName = await showMoreButtonInSection?.innerText();
-            return buttonName
-            }))
-        return showMoreButtonList     
-        },  
-        scrollToLastElement:  async (expectedItemsLength:number) => {
-            const productElements = await mainPage.getProductSectionsList();
-        if (productElements.length !== expectedItemsLength){
-            await mainPage.scrollMainPageDown();
-            await mainPage.scrollToLastElement(expectedItemsLength)
-        }}
-        
+        }
     }
 return mainPage
 }

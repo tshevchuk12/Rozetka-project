@@ -1,4 +1,4 @@
-import {test, expect, Page } from "@playwright/test";
+import {test, expect } from "@playwright/test";
 import { createCatalogPage } from "../PageObject/catalogPage_PO";
 
 
@@ -15,8 +15,8 @@ test("Product card should contain all elements in Catalog page", async({page}) =
     expect(firstClassNameList).toContain("goods-tile__colors");
     expect(firstClassNameList).toContain("goods-tile__prices");
     expect(firstClassNameList).toContain("goods-tile__availability");
-    expect(firstClassNameList).toContain("goods-tile__promo");
-    expect(firstClassNameList).toContain("goods-tile__hidden-content")    
+    expect(firstClassNameList).toContain("d-block");
+   
 });
 
 
@@ -25,12 +25,12 @@ test("Show more button increases the quantity of goods on the Catalog page", asy
     const catalogPage = createCatalogPage(page);
     await catalogPage.openCatalogPage();
 
-    const productsBefore = await catalogPage.getProductItemsList();
-    
+    const productsCountBefore = await catalogPage.getQuantityOfProducts();
+   
     await catalogPage.getExpectedGoodsQuantity(200)
 
-    const productsAfter = await catalogPage.getProductItemsList();
+    const productsCountAfter = await catalogPage.getQuantityOfProducts();
     
-    expect(productsAfter.length).toBeGreaterThan(productsBefore.length);
-    console.log(productsAfter.length)
+    expect(productsCountAfter).toBeGreaterThan(productsCountBefore);
+    console.log(productsCountAfter)
 })

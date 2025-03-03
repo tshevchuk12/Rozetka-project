@@ -1,6 +1,6 @@
 const searchPageSelectors = {
-    SEARCH_FIELD: '.search-form .search-form__inner',
-    SEARCHPAGE_HEADER: '.search-heading.ng-star-inserted'
+    SEARCH_FIELD: 'input.search-form__input', 
+    SEARCHPAGE_HEADER:  'h2.search-heading'
 }
 
 export {searchPageSelectors}
