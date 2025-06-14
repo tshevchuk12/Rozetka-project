@@ -1,6 +1,6 @@
 import{test, expect, Page} from '@playwright/test'
-import { createMainPage } from '../PageObject/mainPage_PO'
-import { createSearchPage } from '../PageObject/searchPage_PO'
+import { MainPage } from '../PageObject/mainPage_PO'
+import { SearchPage } from '../PageObject/searchPage_PO'
 
 
 //Parameterized test  
@@ -8,16 +8,16 @@ const dataForSearch = [{text:"Lenovo",test:1}, {text:"Acer",test:2}, {text:"Noki
 
 dataForSearch.forEach((data) => {
     test(`Search for ${data.text}`, async ({page})=>{
-        const mainPage = createMainPage(page);
-        const searchPage = createSearchPage(page);
+        const mainPage = new MainPage(page);
+        const searchPage = new SearchPage(page);
         await mainPage.openMainPage();
         await searchPage.setSearchData(data.text);
         await page.keyboard.press("Enter", {"delay":100});
         const searchPageHeader = await searchPage.getSearchPageHeader();
-
+        
         const searchPageHeaderText = searchPageHeader?.replace(/\s/g, ' ');
         expect(searchPageHeaderText?.trim()).toEqual(`Результати пошуку «${data.text}»`);
-        //console.log(searchPageHeaderText)
+        
      
     })
 })

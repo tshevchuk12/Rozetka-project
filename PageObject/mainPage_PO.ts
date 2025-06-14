@@ -1,36 +1,41 @@
 import { Page } from "@playwright/test"
 import {mainPageSelectors} from "../Selectors/mainPageSelectors"
 
-const createMainPage = (page: Page) => {
-    const mainPage = {
-        openMainPage: () => page.goto('https://rozetka.com.ua/ua/', {waitUntil:"networkidle"}), 
-    
-        getFirstProductSectionElements: async() => {
-            const firstSectionLocator =  page.locator(mainPageSelectors.PRODUCT_ELEMENTS_LIST); 
-            return firstSectionLocator
-        },
-        getQuantityOfProducts: async() => {
-            const quantityOfProducts = (await mainPage.getFirstProductSectionElements()).count()
+class MainPage {
+    private page:Page;
+
+    constructor (page:Page){
+        this.page = page
+    };
+
+    async openMainPage() {
+        await this.page.goto('https://rozetka.com.ua/ua/', {waitUntil:"networkidle"})
+    };
+
+    async getFirstProductSectionElements() {
+        const firstSectionLocator =  this.page.locator(mainPageSelectors.PRODUCT_ELEMENTS_LIST); 
+        return firstSectionLocator
+    };
+    async getQuantityOfProducts(){
+        const quantityOfProducts = (await this.getFirstProductSectionElements()).count()
             return quantityOfProducts
-        },
-        showMoreButton: {
-            getButtonLocator: () => {
-                const showMoreButton = page.locator(mainPageSelectors.SHOW_MORE_BUTTON)
-                return showMoreButton
-            },
-            getName: async() => {
-                const showMoreButton = mainPage.showMoreButton.getButtonLocator()
-                return await showMoreButton.innerText();
-        
-            },
-            click: async() => {
-                const showMoreButton =  mainPage.showMoreButton.getButtonLocator()
-                await showMoreButton?.click()
-            }
-            
-        }
-    }
-return mainPage
+    };
+    
+    getShowMoreButtonLocator() {
+		return this.page.locator(mainPageSelectors.SHOW_MORE_BUTTON);
+	};
+
+	async getShowMoreButtonName() {
+		const btn = this.getShowMoreButtonLocator();
+		return await btn.innerText();
+	};
+
+	async clickShowMoreButton() {
+		const btn = this.getShowMoreButtonLocator();
+		await btn.click();
+	};
+
+
 }
 
-export { createMainPage }
+export { MainPage }

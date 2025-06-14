@@ -1,11 +1,11 @@
 import {test, expect, Page} from '@playwright/test'
-import { createLoginForm} from '../PageObject/loginForm_PO'
+import { LoginForm} from '../PageObject/loginForm_PO'
 import { loginFormSelectors } from "../Selectors/loginFormSelectors"
 import {utility} from "../Utilities/Utility"
 
 
 test("Check email error message", async ({page})=> {
-    const loginForm = createLoginForm(page);
+    const loginForm = new LoginForm(page);
     await loginForm.openEmailLoginForm();
     await utility.clearAndType(page, loginFormSelectors.EMAIL_FIELD, "Text");
     await page.keyboard.press("Enter", {"delay":100});
@@ -16,7 +16,7 @@ test("Check email error message", async ({page})=> {
 
 //Check if the password is shown in the login form after clicking the "Show password" button 
 test("ShowPassword button displays a password", async({page}) => {
-    const loginForm = createLoginForm(page);
+    const loginForm = new LoginForm(page);
         
     await loginForm.openEmailLoginForm();
     
@@ -35,7 +35,7 @@ test("ShowPassword button displays a password", async({page}) => {
 
 
     const checkEmailFieldValidation = async (page: Page,  invalidEmailDataList: string[]) => {
-        const loginForm = createLoginForm(page);
+        const loginForm = new LoginForm(page);
         for (const invalidEmail of invalidEmailDataList) {
             await loginForm.acceptEmail(invalidEmail);
             const errorMessageText = await page.innerText(loginFormSelectors.EMAIL_VALIDATION_ERROR_TEXT);
@@ -45,7 +45,7 @@ test("ShowPassword button displays a password", async({page}) => {
     
 //Check the validation of the Email field in the Login form
 test("Email field validation in the Login form", async ({page}) => {
-    const loginForm = createLoginForm(page);
+    const loginForm = new LoginForm(page);
     
     await loginForm.openEmailLoginForm();
     const loginFormHeaderText = await loginForm.getLoginFormHeaderText();
